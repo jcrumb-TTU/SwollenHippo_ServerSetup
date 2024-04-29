@@ -7,11 +7,11 @@
 
 mkdir configurationLogs
 
-testTicket=17065
+#testTicket=17065
 
-#strIP=$1
+strIP=$1
 
-#strTicketID=$2
+strTicketID=$2
 
 strURL="https://www.swollenhippo.com/ServiceNow/systems/devTickets.php"
 
@@ -28,7 +28,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
    strJSONTicket=$(echo ${arrResult} | jq -r .[${intCurrent}].ticketID)
 
 
-   if [ "${strJSONTicket}" == "${testTicket}" ]; then
+   if [ "${strJSONTicket}" == "${strTicketID}" ]; then
 
       #echo ${strJSONTicket}
 
@@ -43,7 +43,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
       echo "TicketID: ${strJSONTicket}" >> configurationLogs/TicketID.log
       echo "Start DateTime: ${currTime}" >> configurationLogs/TicketID.log
       echo "Requestor: ${strRequestor}" >> configurationLogs/TicketID.log
-      echo "External IP Address: " >> configurationLogs/TicketID.log
+      echo "External IP Address: ${strIP}" >> configurationLogs/TicketID.log
       echo "Hostname: ${strHostname}" >> configurationLogs/TicketID.log
       echo "Standard Configuration: ${strStanConf}" >> configurationLogs/TicketID.log
       echo "" >> configurationLogs/TicketID.log
@@ -69,7 +69,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
          strSoftInst=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
 
          #echo ${strSoftInst}
-         echo "sudo apt-get install ${strSoftInst}"
+         sudo apt-get install ${strSoftInst}
 
          echo "softwarePackage - ${strSoftwName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
@@ -106,11 +106,11 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             #echo ${strConfCom}
 
-            #mkdir ${strConfCom}
+            mkdir ${strConfCom}
 
             strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
 
-            #echo ${strConfCom}
+            ${strConfCom}
 
             echo "additionalConfig - ${strConfName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
@@ -122,7 +122,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             #echo ${strConfCom}
 
-            #${strConfCom}
+            ${strConfCom}
 
             echo "additionalConfig - ${strConfName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
@@ -134,7 +134,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             #echo ${strConfCom}
 
-            #${strConfCom}
+            ${strConfCom}
 
             echo "additionalConfig - ${strConfName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
@@ -159,7 +159,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       #echo ${strSoftCheck}
 
-      #strSoftVersion=$(apt show ${strSoftCheck} | grep Version | sed 's/Version: //g')
+      strSoftVersion=$(apt show ${strSoftCheck} | grep Version | sed 's/Version: //g')
 
       echo "Version Check - ${strName} - ${strSoftVersion}" >> configurationLogs/TicketID.log
 
