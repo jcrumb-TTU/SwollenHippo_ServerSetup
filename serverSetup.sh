@@ -70,7 +70,9 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       while [ ${intConfComp} -lt ${intNumConf} ]; do
 
-         strConfCom=
+         strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
+
+         #echo ${strConfCom}
 
       ((intConfComp++))
       done
