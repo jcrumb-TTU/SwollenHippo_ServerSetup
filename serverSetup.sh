@@ -74,6 +74,24 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
          #echo ${strConfCom}
 
+         if [[ ${strConfCom} == *"touch"* ]]; then
+
+            strConfCom=$(echo ${strConfCom} | sed  -e 's/touch //g')
+
+            echo ${strConfCom}
+
+            strConfCom=$(echo ${strConfCom} | sed  -e 's/index.html//g')
+
+            echo ${strConfCom}
+
+            #mkdir ${strConfCom}
+
+            strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
+
+            echo ${strConfCom}
+
+         fi
+
       ((intConfComp++))
       done
 
