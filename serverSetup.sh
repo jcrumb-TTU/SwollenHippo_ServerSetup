@@ -65,7 +65,9 @@ while [ ${intCurrent} -lt ${intLength} ]; do
          #echo ${strSoftInst}
          echo "sudo apt-get install ${strSoftInst}"
 
-         echo "softwarePackage - ${strSoftwName} - version check info"
+         strSoftVersion=${strConfCom} --version
+
+         echo "softwarePackage - ${strSoftwName} - ${strSoftVersion}"
 
       ((intCountIns++))
       done
@@ -104,6 +106,8 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             echo ${strConfCom}
 
+            strVersion=$(${strConfCom} --version)
+
          elif [[ ${strConfCom} == *"mkdir"* ]]; then
 
             strConfCom=$(echo ${strConfCom} | sed 's/mkdir /mkdir ~/g')
@@ -111,6 +115,8 @@ while [ ${intCurrent} -lt ${intLength} ]; do
             echo ${strConfCom}
 
             #${strConfCom}
+
+            strVersion=$(${strConfCom} --version)
 
          elif [[ ${strConfCom} == *"chmod"* ]]; then
 
@@ -120,21 +126,27 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             #${strConfCom}
 
+            strVersion=$(${strConfCom} --version)
+
          fi
 
-         echo "additionalConfig - ${strConfName} - version check info"
+         echo "additionalConfig - ${strConfName} - ${strVersion}"
 
       ((intConfComp++))
       done
-
-      strTicketURL="https://www.swollenhippo.com/ServiceNow/systems/devTickets/completed.php?TicketID=${testTicket}"
-
-      strOutcome=$(curl ${strTicketURL} | jq -r .outcome)
-
-      echo ${strOutcome}
 
    fi
 
 
 ((intCurrent++))
 done
+
+echo ""
+
+strTicketURL="https://www.swollenhippo.com/ServiceNow/systems/devTickets/completed.php?TicketID=${testTicket}"
+
+arrOutcome=$(curl ${strTicketURL})
+
+strOutcome=$(echo ${arrOutcome} | jq -r .outcome)
+
+echo ${strOutcome}
