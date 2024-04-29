@@ -38,6 +38,13 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       strStanConf=$(echo ${arrResult} | jq -r .[${intCurrent}].standardConfig)
 
+      echo "TicketID: ${strJSONTicket}"
+      echo "Start DateTime: ${currTime}"
+      echo "Requestor: ${strRequestor}"
+      echo "External IP Address: "
+      echo "Hostname: ${strHostname}"
+      echo "Standard Configuration: ${strStanConf}"
+
    fi
 
 
