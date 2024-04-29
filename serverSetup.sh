@@ -30,7 +30,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       #echo ${strJSONTicket}
 
-      currTime=$(date +"%d-%b-%Y %H-%M")
+      currTime=$(date +"%d-%b-%Y %H:%M")
 
       strHostname=$(hostname)
 
@@ -56,6 +56,10 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       while [ ${intCountIns} -lt ${intNumInstall} ]; do
 
+         strTimeStamp=$(date +%s)
+
+         #echo ${strTimeStamp}
+
          strSoftwName=$(echo ${arrSoftware} | jq -r .[${intCountIns}].name)
 
          echo ${strSoftwName}
@@ -65,14 +69,12 @@ while [ ${intCurrent} -lt ${intLength} ]; do
          #echo ${strSoftInst}
          echo "sudo apt-get install ${strSoftInst}"
 
-         strSoftVersion=${strConfCom} --version
+         strSoftVersion=$(apt-show ${strSoftInst})
 
-         echo "softwarePackage - ${strSoftwName} - ${strSoftVersion}"
+         echo "softwarePackage - ${strSoftwName} - ${strTimeStamp}"
 
       ((intCountIns++))
       done
-
-      echo ""
 
       arrConf=$(echo ${arrResult} | jq -r .[${intCurrent}].additionalConfigs)
 
@@ -92,6 +94,8 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
          if [[ ${strConfCom} == *"touch"* ]]; then
 
+            strTimeStamp=$(date +%s)
+
             strConfCom=$(echo ${strConfCom} | sed  -e 's/touch //g')
 
             echo ${strConfCom}
@@ -106,9 +110,11 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             echo ${strConfCom}
 
-            strVersion=$(${strConfCom} --version)
+            echo "additionalConfig - ${strConfName} - ${strTimeStamp}"
 
          elif [[ ${strConfCom} == *"mkdir"* ]]; then
+
+            strTimeStamp=$(date +%s)
 
             strConfCom=$(echo ${strConfCom} | sed 's/mkdir /mkdir ~/g')
 
@@ -116,9 +122,11 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             #${strConfCom}
 
-            strVersion=$(${strConfCom} --version)
+            echo "additionalConfig - ${strConfName} - ${strTimeStamp}"
 
          elif [[ ${strConfCom} == *"chmod"* ]]; then
+
+            strTimeStamp=$(date +%s)
 
             strConfCom=$(echo ${strConfCom} | sed 's/777 /777 ~/g')
 
@@ -126,11 +134,9 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             #${strConfCom}
 
-            strVersion=$(${strConfCom} --version)
+            echo "additionalConfig - ${strConfName} - ${strTimeStamp}"
 
          fi
-
-         echo "additionalConfig - ${strConfName} - ${strVersion}"
 
       ((intConfComp++))
       done
@@ -150,3 +156,5 @@ arrOutcome=$(curl ${strTicketURL})
 strOutcome=$(echo ${arrOutcome} | jq -r .outcome)
 
 echo ${strOutcome}
+
+echo "Completed: $(date +"%d-%b-%Y %H:%M")"
