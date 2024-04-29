@@ -70,6 +70,8 @@ while [ ${intCurrent} -lt ${intLength} ]; do
       ((intCountIns++))
       done
 
+      echo ""
+
       arrConf=$(echo ${arrResult} | jq -r .[${intCurrent}].additionalConfigs)
 
       intNumConf=$(echo ${arrConf} | jq 'length')
@@ -124,6 +126,12 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       ((intConfComp++))
       done
+
+      strTicketURL="https://www.swollenhippo.com/ServiceNow/systems/devTickets/completed.php?TicketID=${testTicket}"
+
+      strOutcome=$(curl ${strTicketURL} | jq -r .outcome)
+
+      echo ${strOutcome}
 
    fi
 
