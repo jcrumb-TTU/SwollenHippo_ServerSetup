@@ -1,9 +1,16 @@
 #! /bin/bash
 #Author: Jacob Crumb
 #
-#Creation date:
+#Creation date: 4-28-2024
 #
-#Description:
+#Description: This program is meant to take parameters passed from the copy.sh
+#script and resolve tickets from a webserver by finding the ticket, installing and/or
+#configuring the server with the elements in the json packages and configurations.
+#Unfortunately, while the installation of packages occurs fine, it doesn't work on the
+#database server and also creates the configurations rather sloppy. Finally, it fails to
+#Capture the proper version of the software it installs, and I have unfortunately run out
+#of time to dedicate responsibly and maintain my other obligations. I have commented
+#thoroughly to ensure logic and process was captured clearly.
 
 mkdir configurationLogs
 
