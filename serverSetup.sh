@@ -7,6 +7,8 @@
 
 mkdir configurationLogs
 
+sudo apt-get install jq
+
 #testTicket=17065
 
 strIP=$1
@@ -98,7 +100,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             strTimeStamp=$(date +%s)
 
-            strConfCom=$(echo ${strConfCom} | sed  -e 's/touch //g')
+            strConfCom=$(echo ${strConfCom} | sed  -e 's/touch /~/g')
 
             #echo ${strConfCom}
 
@@ -106,9 +108,11 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             #echo ${strConfCom}
 
-            mkdir ${strConfCom}
+            mkdir -p ${strConfCom}
 
             strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
+
+            strConfCom=$(echo ${strConfCom} | sed  -e 's/touch /touch ~/g')
 
             ${strConfCom}
 
@@ -159,7 +163,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       #echo ${strSoftCheck}
 
-      strSoftVersion=$(apt show ${strSoftCheck} | grep Version | sed 's/Version: //g')
+      strSoftVersion=$(sudo apt show ${strSoftCheck} | grep Version | sed 's/Version: //g')
 
       echo "Version Check - ${strName} - ${strSoftVersion}" >> configurationLogs/TicketID.log
 
