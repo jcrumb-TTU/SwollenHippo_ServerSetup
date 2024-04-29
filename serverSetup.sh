@@ -5,6 +5,8 @@
 #
 #Description:
 
+mkdir configurationLogs
+
 testTicket=17065
 
 #strIP=$1
@@ -38,13 +40,13 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       strStanConf=$(echo ${arrResult} | jq -r .[${intCurrent}].standardConfig)
 
-      echo "TicketID: ${strJSONTicket}"
-      echo "Start DateTime: ${currTime}"
-      echo "Requestor: ${strRequestor}"
-      echo "External IP Address: "
-      echo "Hostname: ${strHostname}"
-      echo "Standard Configuration: ${strStanConf}"
-      echo ""
+      echo "TicketID: ${strJSONTicket}" >> configurationLogs/TicketID.log
+      echo "Start DateTime: ${currTime}" >> configurationLogs/TicketID.log
+      echo "Requestor: ${strRequestor}" >> configurationLogs/TicketID.log
+      echo "External IP Address: " >> configurationLogs/TicketID.log
+      echo "Hostname: ${strHostname}" >> configurationLogs/TicketID.log
+      echo "Standard Configuration: ${strStanConf}" >> configurationLogs/TicketID.log
+      echo "" >> configurationLogs/TicketID.log
 
       arrSoftware=$(echo ${arrResult} | jq -r .[${intCurrent}].softwarePackages)
 
@@ -62,16 +64,14 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
          strSoftwName=$(echo ${arrSoftware} | jq -r .[${intCountIns}].name)
 
-         echo ${strSoftwName}
+         #echo ${strSoftwName}
 
          strSoftInst=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
 
          #echo ${strSoftInst}
          echo "sudo apt-get install ${strSoftInst}"
 
-         strSoftVersion=$(apt-show ${strSoftInst})
-
-         echo "softwarePackage - ${strSoftwName} - ${strTimeStamp}"
+         echo "softwarePackage - ${strSoftwName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
       ((intCountIns++))
       done
@@ -86,11 +86,11 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
          strConfName=$(echo ${arrConf} | jq -r .[${intConfComp}].name)
 
-         echo ${strConfName}
+         #echo ${strConfName}
 
          strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
 
-         echo ${strConfCom}
+         #echo ${strConfCom}
 
          if [[ ${strConfCom} == *"touch"* ]]; then
 
@@ -98,19 +98,19 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             strConfCom=$(echo ${strConfCom} | sed  -e 's/touch //g')
 
-            echo ${strConfCom}
+            #echo ${strConfCom}
 
             strConfCom=$(echo ${strConfCom} | sed  -e 's/index.html//g')
 
-            echo ${strConfCom}
+            #echo ${strConfCom}
 
             #mkdir ${strConfCom}
 
             strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
 
-            echo ${strConfCom}
+            #echo ${strConfCom}
 
-            echo "additionalConfig - ${strConfName} - ${strTimeStamp}"
+            echo "additionalConfig - ${strConfName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
          elif [[ ${strConfCom} == *"mkdir"* ]]; then
 
@@ -118,11 +118,11 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             strConfCom=$(echo ${strConfCom} | sed 's/mkdir /mkdir ~/g')
 
-            echo ${strConfCom}
+            #echo ${strConfCom}
 
             #${strConfCom}
 
-            echo "additionalConfig - ${strConfName} - ${strTimeStamp}"
+            echo "additionalConfig - ${strConfName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
          elif [[ ${strConfCom} == *"chmod"* ]]; then
 
@@ -130,19 +130,41 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             strConfCom=$(echo ${strConfCom} | sed 's/777 /777 ~/g')
 
-            echo ${strConfCom}
+            #echo ${strConfCom}
 
             #${strConfCom}
 
-            echo "additionalConfig - ${strConfName} - ${strTimeStamp}"
+            echo "additionalConfig - ${strConfName} - ${strTimeStamp}" >> configurationLogs/TicketID.log
 
          fi
 
       ((intConfComp++))
       done
 
-   fi
+   echo ""
 
+   arrSoftPack=$(echo ${arrResult} | jq -r .[${intCurrent}].softwarePackages)
+
+   intNumCheck=$(echo ${arrSoftware} | jq 'length')
+
+   intCountVer=0
+
+   while [ ${intCountVer} -lt ${intNumCheck} ]; do
+
+      strName=$(echo ${arrSoftPack} | jq -r .[${intCountVer}].name)
+
+      strSoftCheck=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
+
+      #echo ${strSoftCheck}
+
+      #strSoftVersion=$(apt show ${strSoftCheck} | grep Version | sed 's/Version: //g')
+
+      echo "Version Check - ${strName} - ${strSoftVersion}" >> configurationLogs/TicketID.log
+
+   ((intCountVer++))
+   done
+
+   fi
 
 ((intCurrent++))
 done
@@ -155,6 +177,8 @@ arrOutcome=$(curl ${strTicketURL})
 
 strOutcome=$(echo ${arrOutcome} | jq -r .outcome)
 
-echo ${strOutcome}
+echo ${strOutcome} >> configurationLogs/TicketID.log
 
-echo "Completed: $(date +"%d-%b-%Y %H:%M")"
+echo""
+
+echo "Completed: $(date +"%d-%b-%Y %H:%M")" >> configurationLogs/TicketID.log
