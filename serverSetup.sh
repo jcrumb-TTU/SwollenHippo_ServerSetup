@@ -153,22 +153,26 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
    intNumCheck=$(echo ${arrSoftware} | jq 'length')
 
-   intCountVer=0
+   if [ ${intNumCheck} -ne 0 ]; then
 
-   while [ ${intCountVer} -lt ${intNumCheck} ]; do
+      intCountVer=0
 
-      strName=$(echo ${arrSoftPack} | jq -r .[${intCountVer}].name)
+      while [ ${intCountVer} -lt ${intNumCheck} ]; do
 
-      strSoftCheck=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
+         strName=$(echo ${arrSoftPack} | jq -r .[${intCountVer}].name)
 
-      #echo ${strSoftCheck}
+         strSoftCheck=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
 
-      strSoftVersion=$(sudo apt show ${strSoftCheck} | grep Version | sed 's/Version: //g')
+         #echo ${strSoftCheck}
 
-      echo "Version Check - ${strName} - ${strSoftVersion}" >> configurationLogs/TicketID.log
+         strSoftVersion=$(sudo apt show ${strSoftCheck} | grep Version | sed 's/Version: //g')
 
-   ((intCountVer++))
-   done
+         echo "Version Check - ${strName} - ${strSoftVersion}" >> configurationLogs/TicketID.log
+
+      ((intCountVer++))
+      done
+
+   fi
 
    fi
 
