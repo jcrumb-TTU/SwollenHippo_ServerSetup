@@ -5,7 +5,7 @@
 #
 #Description:
 
-testTicket=17042
+testTicket=17065
 
 #strIP=$1
 
@@ -47,17 +47,21 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       arrSoftware=$(echo ${arrResult} | jq -r .[${intCurrent}].softwarePackages)
 
+      #echo ${arrSoftware}
+
       intNumInstall=$(echo ${arrSoftware} | jq 'length')
 
       intCountIns=0
 
       while [ ${intCountIns} -lt ${intNumInstall} ]; do
 
+         strSoftwName=$(echo ${arrSoftware} | jq -r .[${intCountIns}].name)
+
+         echo ${strSoftwName}
+
          strSoftInst=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
 
-         #echo ${strSoftInst}
-
-         #sudo apt-get install ${strSoftInst}
+         echo ${strSoftInst}
 
       ((intCountIns++))
       done
@@ -70,9 +74,13 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       while [ ${intConfComp} -lt ${intNumConf} ]; do
 
+         strConfName=$(echo ${arrConf} | jq -r .[${intConfComp}].name)
+
+         echo ${strConfName}
+
          strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
 
-         #echo ${strConfCom}
+         echo ${strConfCom}
 
          if [[ ${strConfCom} == *"touch"* ]]; then
 
