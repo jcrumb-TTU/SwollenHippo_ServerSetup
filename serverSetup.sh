@@ -53,13 +53,26 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
       while [ ${intCountIns} -lt ${intNumInstall} ]; do
 
-         #strSoftTest=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
+         strSoftInst=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
 
-         #echo ${strSoftTest}
+         #echo ${strSoftInst}
 
-         #sudo apt-get install $(echo ${arrSoftware} | jq -r .[intCountIns].install)
+         #sudo apt-get install ${strSoftInst}
 
       ((intCountIns++))
+      done
+
+      arrConf=$(echo ${arrResult} | jq -r .[${intCurrent}].additionalConfigs)
+
+      intNumConf=$(echo ${arrConf} | jq 'length')
+
+      intConfComp=0
+
+      while [ ${intConfComp} -lt ${intNumConf} ]; do
+
+         strConfCom=
+
+      ((intConfComp++))
       done
 
    fi
