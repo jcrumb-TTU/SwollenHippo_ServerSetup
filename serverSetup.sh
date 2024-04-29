@@ -28,7 +28,15 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
    if [ "${strJSONTicket}" == "${testTicket}" ]; then
 
-      echo ${strJSONTicket}
+      #echo ${strJSONTicket}
+
+      currTime=$(date +"%d-%b-%Y %H-%M")
+
+      strHostname=$(hostname)
+
+      strRequestor=$(echo ${arrResult} | jq -r .[${intCurrent}].requestor)
+
+      strStanConf=$(echo ${arrResult} | jq -r .[${intCurrent}].standardConfig)
 
    fi
 
