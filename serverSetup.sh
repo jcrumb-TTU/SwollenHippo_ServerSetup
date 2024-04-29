@@ -44,6 +44,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
       echo "External IP Address: "
       echo "Hostname: ${strHostname}"
       echo "Standard Configuration: ${strStanConf}"
+      echo ""
 
       arrSoftware=$(echo ${arrResult} | jq -r .[${intCurrent}].softwarePackages)
 
@@ -61,7 +62,10 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
          strSoftInst=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
 
-         echo ${strSoftInst}
+         #echo ${strSoftInst}
+         echo "sudo apt-get install ${strSoftInst}"
+
+         echo "softwarePackage - ${strSoftwName} - version check info"
 
       ((intCountIns++))
       done
@@ -115,6 +119,8 @@ while [ ${intCurrent} -lt ${intLength} ]; do
             #${strConfCom}
 
          fi
+
+         echo "additionalConfig - ${strConfName} - version check info"
 
       ((intConfComp++))
       done
