@@ -102,7 +102,9 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 
             strConfCom=$(echo ${strConfCom} | sed 's/777 /777 ~/g')
 
-            
+            echo ${strConfCom}
+
+            #${strConfCom}
 
          fi
 
