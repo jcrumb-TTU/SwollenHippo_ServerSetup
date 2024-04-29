@@ -5,7 +5,7 @@
 #
 #Description:
 
-testTicket=17065
+testTicket=17042
 
 #strIP=$1
 
@@ -89,6 +89,20 @@ while [ ${intCurrent} -lt ${intLength} ]; do
             strConfCom=$(echo ${arrConf} | jq -r .[${intConfComp}].config)
 
             echo ${strConfCom}
+
+         elif [[ ${strConfCom} == *"mkdir"* ]]; then
+
+            strConfCom=$(echo ${strConfCom} | sed 's/mkdir /mkdir ~/g')
+
+            echo ${strConfCom}
+
+            #${strConfCom}
+
+         elif [[ ${strConfCom} == *"chmod"* ]]; then
+
+            strConfCom=$(echo ${strConfCom} | sed 's/777 /777 ~/g')
+
+            
 
          fi
 
