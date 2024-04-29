@@ -45,6 +45,23 @@ while [ ${intCurrent} -lt ${intLength} ]; do
       echo "Hostname: ${strHostname}"
       echo "Standard Configuration: ${strStanConf}"
 
+      arrSoftware=$(echo ${arrResult} | jq -r .[${intCurrent}].softwarePackages)
+
+      intNumInstall=$(echo ${arrSoftware} | jq 'length')
+
+      intCountIns=0
+
+      while [ ${intCountIns} -lt ${intNumInstall} ]; do
+
+         #strSoftTest=$(echo ${arrSoftware} | jq -r .[${intCountIns}].install)
+
+         #echo ${strSoftTest}
+
+         #sudo apt-get install $(echo ${arrSoftware} | jq -r .[intCountIns].install)
+
+      ((intCountIns++))
+      done
+
    fi
 
 
