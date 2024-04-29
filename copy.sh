@@ -15,4 +15,4 @@ ssh-add ~/.ssh/gcpserver
 scp -i ~/.ssh/gcpserver serverSetup.sh "${strUsername}"@"${strIP}":/home/"${strUsername}"
 
 ssh ${strUsername}@${strIP} "chmod 755 serverSetup.sh"
-ssh ${strUsername}@${strIP} "./serverSetup.sh ${strIP} ${strTicketID}
+ssh ${strUsername}@${strIP} "./serverSetup.sh ${strIP} ${strTicketID}"
