@@ -76,6 +76,8 @@ while [ ${intCurrent} -lt ${intLength} ]; do
       ((intCountIns++))
       done
 
+      echo "" >> configurationLogs/TicketID.log
+
       arrConf=$(echo ${arrResult} | jq -r .[${intCurrent}].additionalConfigs)
 
       intNumConf=$(echo ${arrConf} | jq 'length')
@@ -141,7 +143,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
       ((intConfComp++))
       done
 
-   echo ""
+   echo "" >> configurationLogs/TicketID.log
 
    arrSoftPack=$(echo ${arrResult} | jq -r .[${intCurrent}].softwarePackages)
 
@@ -169,7 +171,7 @@ while [ ${intCurrent} -lt ${intLength} ]; do
 ((intCurrent++))
 done
 
-echo ""
+echo "" >> configurationLogs/TicketID.log
 
 strTicketURL="https://www.swollenhippo.com/ServiceNow/systems/devTickets/completed.php?TicketID=${testTicket}"
 
@@ -179,6 +181,6 @@ strOutcome=$(echo ${arrOutcome} | jq -r .outcome)
 
 echo ${strOutcome} >> configurationLogs/TicketID.log
 
-echo""
+echo "" >> configurationLogs/TicketID.log
 
 echo "Completed: $(date +"%d-%b-%Y %H:%M")" >> configurationLogs/TicketID.log
